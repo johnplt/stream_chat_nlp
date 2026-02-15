@@ -1,0 +1,8 @@
+dbt_management:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: '../output/merged_data.db'  # This creates a local file that acts as your DB
+      schema: 'main'
+  

@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_chat_messages
+    description: "Cleaned version of raw chat message. Renames columns for internal consistency."
+    columns:
+      - name: chat_id
+        description: "The unique identifier for the broker."
+        data_tests:
+          - not_null
+
+      - name: message_at
+        description: "The UTC timestamp of the message entry."
+        data_tests:
+          - not_null
+
+      - name: message_content
+        description: "The raw text of the message."
+        data_tests:
+          - not_null

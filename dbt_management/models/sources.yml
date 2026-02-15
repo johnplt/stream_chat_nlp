@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: messages_data
+    schema: main
+    tables:
+      - name: raw_chats
+        description: "Raw CSV message file (outside the dbt folder)"
+        config:
+          external_location: "../data/raw_chats.csv"

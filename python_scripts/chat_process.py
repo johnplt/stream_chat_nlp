@@ -19,15 +19,15 @@ def process_chat_data(args):
         'timestamp': 'first',
         'chat_message': lambda x: ' '.join(x)
     }).reset_index().drop(columns=['block_id'])
-    
-    return cleaned_df
+
+    cleaned_df.to_csv(args.output_csv, index=False)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process chat message.")
 
-    parser.add_argument("--csv_path", type=str, default="data/raw_chats.csv", help="Chemin vers le fichier csv des données.")
-    parser.add_argument("--time_threshold_secs", type=str, default=5, help="Chemin vers le fichier de test CSV.")
+    parser.add_argument("--csv_path", type=str, default="data/raw_chats.csv", help="Raw csv file path")
+    parser.add_argument("--time_threshold_secs", type=str, default=5, help="Time threshold for consecutive messages")
+    parser.add_argument("--output_csv", type=str, default="output/cleaned_messages_from_python.csv", help="Output csv file path")
 
     args = parser.parse_args()
-    result = process_chat_data(args)
-    result.to_csv("data/cleaned_messages_from_python.csv", index=False)
+    process_chat_data(args)
