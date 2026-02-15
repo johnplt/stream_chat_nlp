@@ -38,24 +38,39 @@ Handling "The Unknown": Use an Out-of-Distribution (OOD) detection layer. If the
 
 ## Structure du projet
 manage_chat_messages/
-├── dbt_project/              # dbt Core folder
-│   ├── models/
-│   │   ├── staging/          # Raw data cleaning
-│   │   │   └── stg_chat_logs.sql
-│   │   └── intermediate/     # The "merging" logic
-│   │       └── int_merged_messages.sql
-│   ├── dbt_project.yml
-│   └── profiles.yml          # DB Connection config
-├── scripts/                  # Python logic
-│   ├── __init__.py
-│   └── chat_process.py          # The Python code provided previously
-├── data/
-│   └── raw_chats.csv         # Local csv data
-├── requirements.txt          # Dependencies (pandas, dbt-core, etc.)
-└── README.md
+```
+├── data 
+│   └── raw_chats.csv       # Local sample data
+├── dbt_management          # dbt Core folder
+│   ├── analyses
+│   ├── dbt_project.yml
+│   ├── macros
+│   ├── models
+│   │   ├── sources.yml
+│   │   ├── staging
+│   │   │   ├── schema.yml
+│   │   │   └── stg_chat_messages.sql
+│   │   └── transform
+│   │       └── cleaned_message.sql
+│   ├── profiles.yml        # DB Connection config
+│   ├── README.md
+│   ├── snapshots
+│   ├── target
+│   └── tests
+│       └── assert_no_empty_messages.sql
+├── logs
+├── output
+│   ├── cleaned_messages.csv
+│   └── cleaned_messages.db
+├── python_scripts
+│   ├── chat_process.py
+│   └── __init__.py
+├── README.md
+└── requirements.txt        # Dependencies (pandas, dbt-core, etc.)
+```
 
 ## Données
-J'ai créé un jeu de données simple evc 3 colonnes :
+J'ai créé un jeu de données simple avec 3 colonnes :
 
 - timestamp: Date et heure du message
 - chat_identifier: identifiant d'une session chat
@@ -63,13 +78,24 @@ J'ai créé un jeu de données simple evc 3 colonnes :
 
 Le jeu de données contient plusieurs lignes pour un même chat_identifier pour reproduire le cas des "splits messages".
 
-## Installation 
-
-- python3 -m venv .venv
-- source .venv/bin/activate
-- pip install -r requirements.txt
-- dbt run
-
 ## Installation et dépendances
 
+- Pré-requis : Python >= 3.11
+- [Duckdb](https://duckdb.org/install/?platform=linux&environment=cli)
+- Se placer à la racine du projet, créer un environnement virtuel python: `python3 -m venv .venv`
+- Activer l'environnement virtuel: `source .venv/bin/activate`
+- Installer les dépendances : `pip install -r requirements.txt`
+
+
 ## Exécution
+
+- Pour le Data Management des messages version Python : 
+    - Lancer `python python_scripts/chat_process.py`
+    - Le résultat se trouve dans le fichier `output/cleaned_messages.csv`
+- Pour le Data Management des messages version DBT : 
+    - Lancer `dbt run`
+    - Le résultat se trouve dans la base de données : `output/cleaned_messages.db`
+        - Lancer `duckdb`
+        - `ATTACH '../output/cleaned_messages.db' AS cleaned_messages;`
+        - `SELECT * FROM cleaned_messages.cleaned_messages;`
+    - Pour les lancer les tests : `dbt test`
