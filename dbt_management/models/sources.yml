@@ -7,4 +7,4 @@ sources:
       - name: raw_chats
         description: "Raw CSV message file (outside the dbt folder)"
         config:
-          external_location: "../data/raw_chats.csv"
+          external_location: "data/raw_chats.csv"

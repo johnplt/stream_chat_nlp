@@ -2,6 +2,8 @@
 pandas
 numpy
 argparse
+fasttext
+deep_translator
 
 # Database Transformation (Choose the one for your DB, e.g., postgres)
 dbt-core

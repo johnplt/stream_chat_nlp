@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--csv_path", type=str, default="data/raw_chats.csv", help="Raw csv file path")
     parser.add_argument("--time_threshold_secs", type=str, default=5, help="Time threshold for consecutive messages")
-    parser.add_argument("--output_csv", type=str, default="output/cleaned_messages_from_python.csv", help="Output csv file path")
+    parser.add_argument("--output_csv", type=str, default="output/cleaned_messages.csv", help="Output csv file path")
 
     args = parser.parse_args()
     process_chat_data(args)
