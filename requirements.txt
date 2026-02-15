@@ -1,0 +1,12 @@
+# Data Processing
+pandas
+numpy
+argparse
+
+# Database Transformation (Choose the one for your DB, e.g., postgres)
+dbt-core
+dbt-postgres
+
+# Quality & Environment
+python-dotenv
+pytest
