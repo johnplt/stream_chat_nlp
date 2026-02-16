@@ -108,6 +108,7 @@ J'ai créé un jeu de données simple avec 3 colonnes :
 Le jeu de données contient plusieurs lignes pour un même chat_identifier pour reproduire le cas des "splits messages".
 
 J'ai travaillé avec un simple fichier csv mais il est possible de modifier assez facilement ce code pour une exécution depuis des tables d'une base PostgreSQL.
+
 - Python : librairie **SQLAlchemy**
 - DBT : librairie **dbt-postgres **(connecteur postgreSQL) + extension duckdb postgres
 
