@@ -43,8 +43,8 @@ Plutôt que d'utiliser un gros modèle (comme GPT-4 ou BERT), Il est possible d'
 Le modèle `MiniLM-L12-v2` (multilingue) est un bon candidat car très rapide, il peut effectuer des inférences dans des délais très court sur un processeur standard. Il n'est pas nécessaire de traduire le texte ici, le modèle peut prendre en input plusieurs langues. Il s'agit d'un modèle de classification sans apprentissage, cela fonctionne parce que le modèle a été pré-entraîné sur une quantité massive de texte afin de comprendre les relations entre les mots. Au lieu de rechercher une étiquette spécifique qui lui a été « enseignée », il calcule à la volée la proximité sémantique entre un texte et des catégories. Ce modèle supporte plus de 50 langues.
 
 J'ai également testé cette stratégie sur quelques exemples de données. Je démontre ici la faisabilité mais le mieux est de tester sur des données réelles pour trancher sur la pertinence d'un tel modèle.
-    - Script : `python_scripts/messages_classification_multilingue.py`
-    - Résultats : `output/classified_messages.csv`
+- Script : `python_scripts/messages_classification_multilingue.py`
+- Résultats : `output/classified_messages.csv`
 
 ### Troisième stratégie : 
 Une autre stratégie serait d'utiliser Fasttext pour détecter la langue (comme dans la première stratégie) et avoir un modèle de classification pour chaque langue (ce qui peut être contraignant si l'on doit gérer beaucoup de langues).
@@ -54,10 +54,10 @@ Je pense qu'il n'y a pas de réponse stricte et définitive et qu'il faudrait te
 
 Pour rester sous la barre des 500 ms, la stratégie la plus efficace consisterait à utiliser un modèle multilingue hybride et se passer de l'étape de traduction:
 
-    - Utiliser FastText pour un tri initial rapide afin de filtrer le bruit (ou d'identifier la langue)
-    - Acheminer les messages hautement fiables vers un algo mixte 
-        - modèle actuel pour l'anglais 
-        - modèle de langage multilingue léger pour une classification sémantique
+- Utiliser FastText pour un tri initial rapide afin de filtrer le bruit (ou d'identifier la langue)
+- Acheminer les messages hautement fiables vers un algo mixte 
+    - modèle actuel pour l'anglais 
+    - modèle de langage multilingue léger pour une classification sémantique
 
 ## Structure du projet
 manage_chat_messages/
