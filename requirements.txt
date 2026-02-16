@@ -4,6 +4,7 @@ numpy
 argparse
 fasttext
 deep_translator
+sentence_transformers
 
 # Database Transformation (Choose the one for your DB, e.g., postgres)
 dbt-core

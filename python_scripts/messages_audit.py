@@ -67,18 +67,16 @@ def process_dataframe(args):
     if args.source == "csv":
         print(f"Loading CSV from {args.input_path}...")
         df = pd.read_csv(args.input_path)
-        text_col = 'chat_message'
     else:
         print(f"Connecting to DuckDB at {args.input_path}...")
         con = duckdb.connect(args.input_path)
         df = con.execute("SELECT * FROM cleaned_messages.cleaned_messages").df()
-        text_col = 'full_message' # dbt column name
         con.close()
     
     # Apply the function row-by-row
     # result_type='expand' creates the columns automatically
     print("Processing messages and profiling performance...")
-    metrics_df = df[text_col].apply(process_single_message, args=(args.model_path, args.conf_threshold))
+    metrics_df = df["full_message"].apply(process_single_message, args=(args.model_path, args.conf_threshold))
     
     # Concatenate the original data with the new metrics
     final_df = pd.concat([df, metrics_df], axis=1)
@@ -92,13 +90,13 @@ def process_dataframe(args):
     print(f"Average processing time per message: {avg_time:.2f}ms")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Classify chat message.")
+    parser = argparse.ArgumentParser(description="Audit chat message.")
 
     parser.add_argument("--model_path", type=str, default="lid.176.bin", help="Fast text model path")
     parser.add_argument("--conf_threshold", type=str, default=0.7, help="Confidence hreshold for fasttext consecutive messages")
     parser.add_argument("--source", choices=["csv", "db"], required=True, help="Read from 'csv' or DuckDB 'db'")
     parser.add_argument("--input_path", type=str, help="Path to CSV file (if source=csv)")
-    parser.add_argument("--output_path", type=str, default="output/classified_messages.csv", help="Output csv file path")
+    parser.add_argument("--output_path", type=str, default="output/audit_messages.csv", help="Output csv file path")
 
     args = parser.parse_args()
     process_dataframe(args)

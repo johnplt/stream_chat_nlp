@@ -9,10 +9,15 @@ pip install -q -r requirements.txt
 # 2. Run dbt
 dbt run --project-dir ./dbt_management --profiles-dir ./dbt_management
 
-# 3. Run Python classification
-# We pass the root path to the script so it can find the DuckDB file
+# 3. Run Python audit
 
-python python_scripts/message_classification.py \
+python python_scripts/messages_audit.py \
+    --source db \
+    --input_path output/cleaned_messages.db
+
+# 4. Run Python multilingual classification
+
+python python_scripts/messages_classification_multilingue.py \
     --source db \
     --input_path output/cleaned_messages.db
 
