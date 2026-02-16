@@ -110,7 +110,7 @@ Le jeu de données contient plusieurs lignes pour un même chat_identifier pour 
 J'ai travaillé avec un simple fichier csv mais il est possible de modifier assez facilement ce code pour une exécution depuis des tables d'une base PostgreSQL.
 
 - Python : librairie **SQLAlchemy**
-- DBT : librairie **dbt-postgres **(connecteur postgreSQL) + extension duckdb postgres
+- DBT : librairie **dbt-postgres** (connecteur postgreSQL) + extension duckdb postgres
 
 ## Installation et dépendances
 
@@ -139,3 +139,32 @@ J'ai travaillé avec un simple fichier csv mais il est possible de modifier asse
 - Pour la Classification multilingue :
     - Lancer directement le script Python à partir du fichier CSV => `python python_scripts/messages_classification_multilingue.py --source csv --input_path output/cleaned_messages.csv`
     - ou Lancer `sh run_pipeline.sh`, script sh d'exécution de toute la pipeline dépendances + dbt + audit + classification Python.
+
+# Dockerisation
+
+J'ai conteneurisé ce projet pour garantir l'environnement (notamment les dépendances C++ pour FastText) et pour montrer mes compétences sur Docker.
+
+1. Pré-requis 
+- Avoir Docker installé sur sa machine.
+- Avoir un Personal Access Token (PAT) GitHub avec les droits `read:packages`.
+- Créer et se placer dans un dossier de test vide
+
+2. Authentification au Registre (GHCR)
+- Avant de pouvoir récupérer l'image privée, il faut se connecter registre GitHub :
+```bash
+# Remplacez VOTRE_TOKEN par votre PAT GitHub
+echo "VOTRE_TOKEN" | docker login ghcr.io -u VOTRE_GITHUB_USERNAME --password-stdin
+```
+
+3. Récupérer l'image (Pull)
+```bash
+docker pull ghcr.io/johnplt/manage_chat_messages:latest
+```
+
+4. Exécuter le Pipeline
+Je n'ai pas utilisé Docker Compose pour cette fois ni le montage des volumes car c'est juste un test avec des données fictives et légères. Il faut donc juste passer par la commande suivante.
+
+```bash
+docker run --rm -it ghcr.io/johnplt/manage_chat_messages:latest
+```
+Si tout s'est bien passé, le script run_pipeline.sh s'est exécuté avec succès.
