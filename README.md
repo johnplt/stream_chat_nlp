@@ -40,14 +40,42 @@ Les résultats (`output/audit_messages.csv`) sont plutôt satisfaisants en terme
 ### Deuxième stratégie : Modèle multilingue léger
 Plutôt que d'utiliser un gros modèle (comme GPT-4 ou BERT), il est possible d'utilisé un encodeur multilingue. Ce type d'encodeur a été entraîné à comprendre la signification sémantique dans différentes langues dans un seul espace vectoriel. Là encore, cela peut être pertinent s'agissant de message assez court.
 
-Le modèle `MiniLM-L12-v2` (multilingue) est un bon candidat car très rapide, il peut effectuer des inférences dans des délais très court sur un processeur standard. Il n'est pas nécessaire de traduire le texte ici, le modèle peut prendre en input plusieurs langues. Il s'agit d'un modèle de classification sans apprentissage (Zero-shot Classification) , cela fonctionne parce que le modèle a été pré-entraîné sur une quantité massive de texte afin de comprendre les relations entre les mots. Au lieu de rechercher une étiquette spécifique qui lui a été « enseignée », il calcule à la volée la proximité sémantique entre un texte et des catégories. Ce modèle supporte plus de 50 langues.
+Le modèle [paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2) est un bon candidat car très rapide, il peut effectuer des inférences dans des délais très court sur un processeur standard. Il n'est pas nécessaire de traduire le texte ici, le modèle peut prendre en input plusieurs langues. Il s'agit d'un modèle de classification sans apprentissage (Zero-shot Classification) , cela fonctionne parce que le modèle a été pré-entraîné sur une quantité massive de texte afin de comprendre les relations entre les mots. Au lieu de rechercher une étiquette spécifique qui lui a été « enseignée », il calcule à la volée la proximité sémantique entre un texte et des catégories. Ce modèle supporte plus de 50 langues.
 
 J'ai également testé cette stratégie sur quelques exemples de données. Je démontre ici la faisabilité mais le mieux est de tester sur des données réelles pour trancher sur la pertinence d'un tel modèle.
 - Script : `python_scripts/messages_classification_multilingue.py`
 - Résultats : `output/classified_messages.csv`
 
+D'ailleurs, on peut utiliser ce même modèle pour faire également faire du few-shot classification (sorte de fine-tuning léger d'un modèle avec quelques exemples). Cela se fait avec la librairie `setfit`.
+
+Exemple d'utilisation :
+
+1. Entraînement et sauvegarde sur quelques exemples
+
+```python
+from setfit import SetFitModel, Trainer
+from datasets import Dataset
+
+# Jeu de données avec exemples
+data = {"text": [...], "label": [...]}
+
+
+model = SetFitModel.from_pretrained("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+
+trainer = Trainer(model=model, train_dataset=Dataset.from_dict(data))
+trainer.train()
+model.save_pretrained("./models/setfit_classifier")
+```
+
+2. Inférence
+
+```python
+model = SetFitModel.from_pretrained("./models/setfit_classifier")
+prediction = model.predict(["My package is late"])
+```
+
 ### Troisième stratégie : 
-Une autre stratégie serait d'utiliser Fasttext pour détecter la langue (comme dans la première stratégie) et avoir un modèle de classification (TF-IDF + Machine Learning) pour chaque langue (ce qui peut être contraignant si l'on doit gérer beaucoup de langues mais permettrait d'avoir des modèles entrainés sur des pattern réels).
+Une autre stratégie serait d'utiliser Fasttext pour détecter la langue (comme dans la première stratégie) et avoir un modèle de classification (TF-IDF + Machine Learning) pour chaque langue (ce qui peut être contraignant si l'on doit gérer beaucoup de langues mais permettrait d'avoir des modèles entrainés sur des exemples réels).
 
 ### Discussion
 Je pense qu'il n'y a pas de réponse stricte et définitive et qu'il faudrait tester les approches les plus viables au regard des contraintes et des données.
