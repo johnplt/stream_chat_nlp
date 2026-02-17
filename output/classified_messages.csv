@@ -1,21 +1,21 @@
 chat_id,full_message,chat_start_time,chat_end_time,fragment_count,message_category,classification_confidence,classification_ms
-USR_105,Can we hedge the FX risk?,2026-02-15 09:06:12,2026-02-15 09:06:12,1,"Market Analysis (News, Prices, Trends)",0.375,80.14
-USR_108,Urgent: Fed announcement in 5 mins.,2026-02-15 09:13:45,2026-02-15 09:13:45,1,"Market Analysis (News, Prices, Trends)",0.258,69.89
-USR_110,Indices down 2% on open.,2026-02-15 09:20:00,2026-02-15 09:20:00,1,"Account Funding (Deposit, Withdrawal, Wire Transfer)",0.202,62.34
-USR_112,Client inquiry regarding dividend tax.,2026-02-15 09:22:00,2026-02-15 09:22:00,1,"Compliance & Legal (KYC, Documents, Tax)",0.4,52.06
-USR_202,I need to deposit funds via wire transfer.,2026-02-15 10:00:02,2026-02-15 10:00:02,1,"Account Funding (Deposit, Withdrawal, Wire Transfer)",0.767,50.03
-USR_204,k,2026-02-15 10:00:04,2026-02-15 10:00:04,1,"Trade Execution (Buy, Sell, Orders)",0.238,40.15
-USR_206,Ich möchte mein Passwort zurücksetzen.,2026-02-15 10:00:06,2026-02-15 10:00:06,1,"Technical Support (Login, Password, App Error)",0.46,48.97
-USR_208,Can you help me?,2026-02-15 10:00:08,2026-02-15 10:00:08,1,"Technical Support (Login, Password, App Error)",0.16,45.26
-USR_107,Swap rates updated.,2026-02-15 09:12:30,2026-02-15 09:12:30,1,"Market Analysis (News, Prices, Trends)",0.405,46.9
-USR_102,Market volatility is high. Adjusting stop-loss levels. Portfolio rebalanced successfully.,2026-02-15 09:00:05,2026-02-15 09:07:01,3,"Market Analysis (News, Prices, Trends)",0.533,58.67
-USR_111,New IPO subscription open.,2026-02-15 09:21:00,2026-02-15 09:21:00,1,"Trade Execution (Buy, Sell, Orders)",0.186,44.21
-USR_201,Vendre 10 lots EUR/USD au prix du marché.,2026-02-15 10:00:01,2026-02-15 10:00:01,1,"Market Analysis (News, Prices, Trends)",0.394,47.55
-USR_205,The yield curve is flattening rapidly.,2026-02-15 10:00:05,2026-02-15 10:00:05,1,"Market Analysis (News, Prices, Trends)",0.188,49.04
-USR_207,!!! BUY !!!,2026-02-15 10:00:07,2026-02-15 10:00:07,1,"Trade Execution (Buy, Sell, Orders)",0.429,47.33
-USR_101,Executing buy order for 500 shares of AAPL. Order confirmed at 185.20.,2026-02-15 09:00:01,2026-02-15 09:05:00,2,"Trade Execution (Buy, Sell, Orders)",0.519,63.3
-USR_103,Margin call alert for account XJ9.,2026-02-15 09:01:10,2026-02-15 09:01:10,1,"Account Funding (Deposit, Withdrawal, Wire Transfer)",0.292,51.68
-USR_104,Research report: The energy sector is showing bullish signals.,2026-02-15 09:02:15,2026-02-15 09:02:17,3,"Market Analysis (News, Prices, Trends)",0.254,54.75
-USR_106,Gold prices hitting resistance. Wait for breakout before entry.,2026-02-15 09:10:00,2026-02-15 09:10:01,2,"Market Analysis (News, Prices, Trends)",0.363,47.71
-USR_109,Checking liquidity for BTC/USD. Spreads are widening. Execution might be delayed.,2026-02-15 09:15:00,2026-02-15 09:15:10,3,"Market Analysis (News, Prices, Trends)",0.372,67.87
-USR_203,¿Cuál es el margen requerido para BTC?,2026-02-15 10:00:03,2026-02-15 10:00:03,1,"Compliance & Legal (KYC, Documents, Tax)",0.289,44.19
+USR_107,Swap rates updated.,2026-02-15 09:12:30,2026-02-15 09:12:30,1,"Market Analysis (News, Prices, Trends)",0.405,55.33
+USR_101,Executing buy order for 500 shares of AAPL. Order confirmed at 185.20.,2026-02-15 09:00:01,2026-02-15 09:05:00,2,"Trade Execution (Buy, Sell, Orders)",0.519,71.83
+USR_103,Margin call alert for account XJ9.,2026-02-15 09:01:10,2026-02-15 09:01:10,1,"Account Funding (Deposit, Withdrawal, Wire Transfer)",0.292,48.1
+USR_104,Research report: The energy sector is showing bullish signals.,2026-02-15 09:02:15,2026-02-15 09:02:17,3,"Market Analysis (News, Prices, Trends)",0.254,54.54
+USR_106,Gold prices hitting resistance. Wait for breakout before entry.,2026-02-15 09:10:00,2026-02-15 09:10:01,2,"Market Analysis (News, Prices, Trends)",0.363,58.44
+USR_109,Checking liquidity for BTC/USD. Spreads are widening. Execution might be delayed.,2026-02-15 09:15:00,2026-02-15 09:15:10,3,"Market Analysis (News, Prices, Trends)",0.372,65.6
+USR_203,¿Cuál es el margen requerido para BTC?,2026-02-15 10:00:03,2026-02-15 10:00:03,1,"Compliance & Legal (KYC, Documents, Tax)",0.289,54.93
+USR_105,Can we hedge the FX risk?,2026-02-15 09:06:12,2026-02-15 09:06:12,1,"Market Analysis (News, Prices, Trends)",0.375,54.85
+USR_108,Urgent: Fed announcement in 5 mins.,2026-02-15 09:13:45,2026-02-15 09:13:45,1,"Market Analysis (News, Prices, Trends)",0.258,91.17
+USR_110,Indices down 2% on open.,2026-02-15 09:20:00,2026-02-15 09:20:00,1,"Account Funding (Deposit, Withdrawal, Wire Transfer)",0.202,76.97
+USR_112,Client inquiry regarding dividend tax.,2026-02-15 09:22:00,2026-02-15 09:22:00,1,"Compliance & Legal (KYC, Documents, Tax)",0.4,103.7
+USR_202,I need to deposit funds via wire transfer.,2026-02-15 10:00:02,2026-02-15 10:00:02,1,"Account Funding (Deposit, Withdrawal, Wire Transfer)",0.767,62.02
+USR_204,k,2026-02-15 10:00:04,2026-02-15 10:00:04,1,"Trade Execution (Buy, Sell, Orders)",0.238,32.63
+USR_206,Ich möchte mein Passwort zurücksetzen.,2026-02-15 10:00:06,2026-02-15 10:00:06,1,"Technical Support (Login, Password, App Error)",0.46,57.35
+USR_208,Can you help me?,2026-02-15 10:00:08,2026-02-15 10:00:08,1,"Technical Support (Login, Password, App Error)",0.16,39.88
+USR_102,Market volatility is high. Adjusting stop-loss levels. Portfolio rebalanced successfully.,2026-02-15 09:00:05,2026-02-15 09:07:01,3,"Market Analysis (News, Prices, Trends)",0.533,62.4
+USR_111,New IPO subscription open.,2026-02-15 09:21:00,2026-02-15 09:21:00,1,"Trade Execution (Buy, Sell, Orders)",0.186,51.63
+USR_201,Vendre 10 lots EUR/USD au prix du marché.,2026-02-15 10:00:01,2026-02-15 10:00:01,1,"Market Analysis (News, Prices, Trends)",0.394,55.12
+USR_205,The yield curve is flattening rapidly.,2026-02-15 10:00:05,2026-02-15 10:00:05,1,"Market Analysis (News, Prices, Trends)",0.188,52.2
+USR_207,!!! BUY !!!,2026-02-15 10:00:07,2026-02-15 10:00:07,1,"Trade Execution (Buy, Sell, Orders)",0.429,45.32

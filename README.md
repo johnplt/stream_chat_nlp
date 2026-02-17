@@ -16,7 +16,7 @@ Proposition de stratégie pour la gestion des "split message":
 Pour généraliser le modèle de classification plusieurs stratégies sont possibles. Cependant, pour respecter la contrainte de 500ms maximum de traitement par message, les modèles d'apprentissage profond lourds (comme BERT ou GPT) sont à écarter comme échangé ensemble. Il est néanmoins possible d'utiliser des modèles d'apprentissage automatique plus léger sans créer une pipeline distinct pour chaque langue. 
 
 ### Première stratégie : Traduction + modèle anglais
-Cette stratégie se concentre autour de FastText pour la détection de la langue + le modèle de classification déjà existant pour la catégorisation des messages. Ces méthodes restent efficaces en termes de CPU et de temps d'exécution.
+Cette stratégie se concentre autour de FastText pour la détection de la langue + le modèle de classification déjà existant pour la catégorisation des messages. Cette idée de traduction part du postulat selon lequel les messages sont des messages assez court et concis. Ces méthodes restent efficaces en termes de CPU et de temps d'exécution. 
 
 Les étapes de l' algorithme :
 1. Détection rapide (FastText) : Si le niveau de confiance est faible (<70% par exemple, seuil arbitraire) ou si le texte est trop court (<1 ou 2 mots), redirection vers une révision manuelle.
@@ -38,21 +38,21 @@ Pour tester cette réflexion, j'ai créé un script Python  (voir `python_script
 Les résultats (`output/audit_messages.csv`) sont plutôt satisfaisants en terme de timing, il faudrait tester sur de vraies données pour la cohérence des résultats.
 
 ### Deuxième stratégie : Modèle multilingue léger
-Plutôt que d'utiliser un gros modèle (comme GPT-4 ou BERT), Il est possible d'utilisé un encodeur multilingue. Ce type d'encodeur a été entraîné à comprendre la signification sémantique dans différentes langues dans un seul espace vectoriel.
+Plutôt que d'utiliser un gros modèle (comme GPT-4 ou BERT), il est possible d'utilisé un encodeur multilingue. Ce type d'encodeur a été entraîné à comprendre la signification sémantique dans différentes langues dans un seul espace vectoriel. Là encore, cela peut être pertinent s'agissant de message assez court.
 
-Le modèle `MiniLM-L12-v2` (multilingue) est un bon candidat car très rapide, il peut effectuer des inférences dans des délais très court sur un processeur standard. Il n'est pas nécessaire de traduire le texte ici, le modèle peut prendre en input plusieurs langues. Il s'agit d'un modèle de classification sans apprentissage, cela fonctionne parce que le modèle a été pré-entraîné sur une quantité massive de texte afin de comprendre les relations entre les mots. Au lieu de rechercher une étiquette spécifique qui lui a été « enseignée », il calcule à la volée la proximité sémantique entre un texte et des catégories. Ce modèle supporte plus de 50 langues.
+Le modèle `MiniLM-L12-v2` (multilingue) est un bon candidat car très rapide, il peut effectuer des inférences dans des délais très court sur un processeur standard. Il n'est pas nécessaire de traduire le texte ici, le modèle peut prendre en input plusieurs langues. Il s'agit d'un modèle de classification sans apprentissage (Zero-shot Classification) , cela fonctionne parce que le modèle a été pré-entraîné sur une quantité massive de texte afin de comprendre les relations entre les mots. Au lieu de rechercher une étiquette spécifique qui lui a été « enseignée », il calcule à la volée la proximité sémantique entre un texte et des catégories. Ce modèle supporte plus de 50 langues.
 
 J'ai également testé cette stratégie sur quelques exemples de données. Je démontre ici la faisabilité mais le mieux est de tester sur des données réelles pour trancher sur la pertinence d'un tel modèle.
 - Script : `python_scripts/messages_classification_multilingue.py`
 - Résultats : `output/classified_messages.csv`
 
 ### Troisième stratégie : 
-Une autre stratégie serait d'utiliser Fasttext pour détecter la langue (comme dans la première stratégie) et avoir un modèle de classification pour chaque langue (ce qui peut être contraignant si l'on doit gérer beaucoup de langues).
+Une autre stratégie serait d'utiliser Fasttext pour détecter la langue (comme dans la première stratégie) et avoir un modèle de classification (TF-IDF + Machine Learning) pour chaque langue (ce qui peut être contraignant si l'on doit gérer beaucoup de langues mais permettrait d'avoir des modèles entrainés sur des pattern réels).
 
 ### Discussion
 Je pense qu'il n'y a pas de réponse stricte et définitive et qu'il faudrait tester les approches les plus viables au regard des contraintes et des données.
 
-Pour rester sous la barre des 500 ms, la stratégie la plus efficace consisterait à utiliser un modèle multilingue hybride et se passer de l'étape de traduction:
+Pour rester sous la barre des 500 ms, la stratégie la plus efficace consisterait à utiliser un modèle multilingue hybride et peut-être se passer de l'étape de traduction:
 
 - Utiliser FastText pour un tri initial rapide afin de filtrer le bruit (ou d'identifier la langue)
 - Acheminer les messages hautement fiables vers un algo mixte 
@@ -142,7 +142,7 @@ J'ai travaillé avec un simple fichier csv mais il est possible de modifier asse
 
 # Dockerisation
 
-J'ai conteneurisé ce projet pour garantir l'environnement (notamment les dépendances C++ pour FastText) et pour montrer mes compétences sur Docker.
+J'ai conteneurisé ce projet pour garantir l'environnement (notamment les dépendances C++ pour FastText) et pour montrer un minumum de compétences sur Docker.
 
 1. Pré-requis 
 - Avoir Docker installé sur sa machine.
@@ -150,7 +150,7 @@ J'ai conteneurisé ce projet pour garantir l'environnement (notamment les dépen
 - Créer et se placer dans un dossier de test vide
 
 2. Authentification au Registre (GHCR)
-- Avant de pouvoir récupérer l'image privée, il faut se connecter registre GitHub :
+- Avant de pouvoir récupérer l'image privée, il faut se connecter au registre GitHub :
 ```bash
 # Remplacez VOTRE_TOKEN par votre PAT GitHub
 echo "VOTRE_TOKEN" | docker login ghcr.io -u VOTRE_GITHUB_USERNAME --password-stdin
@@ -162,9 +162,12 @@ docker pull ghcr.io/johnplt/manage_chat_messages:latest
 ```
 
 4. Exécuter le Pipeline
-Je n'ai pas utilisé Docker Compose pour cette fois ni le montage des volumes car c'est juste un test avec des données fictives et légères. Il faut donc juste passer par la commande suivante.
+Je n'ai pas utilisé Docker Compose pour cette fois ni le montage des volumes car c'est juste un test avec des données fictives et légères. Il faut donc juste passer par la commande ci-dessous.
 
 ```bash
-docker run --rm -it ghcr.io/johnplt/manage_chat_messages:latest
+mkdir -p output 
+docker run --rm \
+  -v $(pwd)/output:/app/output \
+   ghcr.io/johnplt/manage_chat_messages:latest
 ```
-Si tout s'est bien passé, le script run_pipeline.sh s'est exécuté avec succès.
+Si tout s'est bien passé, le script run_pipeline.sh s'est exécuté avec succès et les fichiers résultats .csv  et .db se trouvent dans le dossier `output`.
