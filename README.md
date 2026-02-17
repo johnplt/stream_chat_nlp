@@ -4,11 +4,11 @@
 
 Proposition de stratégie pour la gestion des "split message":
 - Je propose de regrouper par l'identifiant CHATROOM selon le procédé suivant =>
-    - Préservation de la séquence : il faut trier par date et heur avant de joindre les chaînes afin de garantir que le message ait un sens.
+    - Préservation de la séquence : il faut trier par date et heure avant de joindre les messages afin de garantir que le message tout en entier ait un sens.
     - Agrégation: agréger par CHATROOM et rassembler les messages d'un même chat
     
 - Pour illustrer cette proposition, j'ai développé une version python et une version DBT. La structure du projet, l'installation et l'éxécution des programmes sont détaillés plus loin.
-- Version Python : Tout ce procédé peut être réalisé en Python simplement avec la librairie pandas (voir `python_scripts/process_chats.py`). La version Python est pertinente notamment si les données sont traitées via un « flux » (par exemple, lorsque des messages arrivent via une API).
+- Version Python : Tout ce procédé peut être réalisé en Python simplement avec la librairie pandas (voir `python_scripts/process_chats.py` et `python_scripts/tests`). La version Python est pertinente notamment si les données sont traitées via un « flux » (par exemple, lorsque des messages arrivent via une API).
 - Pertinence de DBT : Bien que la partie classification des messages avec des algorithmes NLP sera fait en Python, DBT reste pertinent pour la partie gestion de la base en amont (tests sur les colonnes, transformations, "nettoyages") à l'aide de SQL, GROUP BY ou les fonctions window. La version DBT permet de créer une base de données propre et dédupliquée sur lequel peut s'appuyer avec garantie le modèle de classification (voir dossier `dbt_management`).
 
 ## Question 2: Généralisation au multilingue.
@@ -170,15 +170,21 @@ J'ai travaillé avec un simple fichier csv mais il est possible de modifier asse
 
 # Dockerisation
 
-J'ai conteneurisé ce projet pour garantir l'environnement (notamment les dépendances C++ pour FastText) et pour montrer un minumum de compétences sur Docker.
+J'ai conteneurisé ce projet pour :
+- garantir l'environnement et éviter la gestion des dépendances (notamment les dépendances C++ pour FastText)
+- pouvoir lancer toute la pipeline sans avoir besoin de lancer toutes ces commandes ci-dessus et avoir les résultats
+- montrer un minimum de compétences sur Docker.
+
 
 1. Pré-requis 
+
 - Avoir Docker installé sur sa machine.
 - Avoir un Personal Access Token (PAT) GitHub avec les droits `read:packages`.
 - Créer et se placer dans un dossier de test vide
 
 2. Authentification au Registre (GHCR)
-- Avant de pouvoir récupérer l'image privée, il faut se connecter au registre GitHub :
+
+Avant de pouvoir récupérer l'image privée, il faut se connecter au registre GitHub :
 ```bash
 # Remplacez VOTRE_TOKEN par votre PAT GitHub
 echo "VOTRE_TOKEN" | docker login ghcr.io -u VOTRE_GITHUB_USERNAME --password-stdin
@@ -190,6 +196,7 @@ docker pull ghcr.io/johnplt/manage_chat_messages:latest
 ```
 
 4. Exécuter le Pipeline
+
 Je n'ai pas utilisé Docker Compose pour cette fois ni le montage des volumes car c'est juste un test avec des données fictives et légères. Il faut donc juste passer par la commande ci-dessous.
 
 ```bash
