@@ -88,7 +88,7 @@ st.sidebar.title("⚙️ Configuration MLOps")
 domain = st.sidebar.selectbox("Cas d'usage Métier :", list(DOMAIN_DATA.keys()))
 
 selected_categories_text = st.sidebar.text_area(
-    "Taxonomie dynamique (Zero-Shot) :",
+    "Catégories à classifier :",
     value="\n".join(DOMAIN_DATA[domain]["categories"]),
     height=180
 )
@@ -105,10 +105,15 @@ category_embeddings = get_category_embeddings(model, tuple(categories))
 st.title("⚡ StreamChat NLP Hub")
 
 st.markdown("""
-> **Vision Produit & Engineering :** Plateforme MLOps de classification sémantique multilingue (+50 langues) conçue pour le routage de messages sous les 500 ms de SLA.
+> **À quoi sert cette application ?**
 > 
-> * **Sobriété Numérique :** Inférence vectorielle Zero-Shot sur CPU (15-30 ms), éliminant le besoin de fine-tuner ou d'appeler des LLMs coûteux et lents pour de la classification.
-> * **Architecture Hybride :** S'exécute aussi bien en **Mode Batch (dbt / DuckDB)** pour l'assainissement et la déduplication de volumes historiques qu'en **Mode Online / Temps Réel (API / Streamlit)** pour le routage dynamique.
+> Cette plateforme permet de **catégoriser automatiquement les messages clients** (support, réclamations, questions) dans plus de 50 langues, afin d'envoyer chaque demande directement à la bonne équipe.
+> 
+> * **Réponse instantanée (< 30 ms) :** Utilise un modèle léger sur CPU. C'est beaucoup plus rapide, sobre et économique que de faire appel à un LLM (comme GPT-4).
+> * **Catégories modifiables à la volée :** La liste des catégories dans la barre de gauche peut être modifiée à la volée sans avoir besoin de ré-entraîner le modèle.
+> * **Deux modes d'utilisation :** 
+>   1. **En temps réel :** Pour trier les messages dès qu'ils arrivent sur un chat ou un formulaire.
+>   2. **Par lot (Batch) :** Pour traiter un fichier CSV entier de données historiques avec **dbt / DuckDB**.
 """)
 
 st.divider()

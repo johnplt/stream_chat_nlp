@@ -1,22 +1,25 @@
 # ⚡ StreamChat NLP Hub
 
-> **Plateforme MLOps de classification sémantique multilingue temps réel (< 500 ms SLA) et batch.**  
-> Routage intelligent et assainissement de messages multi-secteurs (Fintech, Santé, E-Commerce).
+> **Classer et trier automatiquement les messages clients dans +50 langues en temps réel et par lot.**
 
 ---
 
-## Vision Produit & Choix d'Architecture
+## 🤔 À quoi sert ce projet ?
 
-### 1. Zero-Shot & Taxonomie Dynamique
-Plutôt que d'entraîner ou de *fine-tuner* un modèle par domaine métier, la plateforme s'appuie sur la **recherche de similarité vectorielle** (`paraphrase-multilingual-MiniLM-L12-v2`).
-* **Avantage :** Modification des catégories métiers à chaud sans aucun réentraînement.
-* **Support Multilingue :** Alignement sémantique natif sur +50 langues sans passer par une étape de traduction coûteuse.
+Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milliers de messages peuvent arirver chaque jour et parfois dans des langues différentes. Les trier à la main ou créer des règles rigides prend du temps et coûte cher.
 
-### 2. Sobriété Numérique vs LLMs
-Là où l'appel à un LLM (GPT-4 / Llama-3) introduit une latence de 1 à 3 secondes et un coût récurrent par API :
-* **Inférence CPU ultra-rapide :** ~15-30 ms par message.
-* **SLA garanti :** Largement sous la barre des 500 ms exigés pour du chat temps réel.
-* **Coût d'infrastructure :** Inférence locale sans dépendance à des APIs payantes.
+**StreamChat NLP** permet de :
+1. **Identifier le sujet d'un message instantanément** (ex: problème de paiement, demande d'ordonnance, suivi de livraison) peu importe la langue du client.
+2. **Rediriger automatiquement le message** vers la bonne équipe ou le bon service client.
+3. **Traiter des volumes historiques (mode Batch)** pour nettoyer, dédoubler et analyser les données passées avec DuckDB et dbt.
+
+## 💡 Pourquoi cette approche plutôt qu'un LLM (ex: ChatGPT) ?
+
+* **Ultra-rapide (< 30 ms) :** Au lieu d'attendre 2 à 3 secondes la réponse d'un gros modèle, la classification se fait presque instantanément.
+* **Économique et sobre :** Tourne sur un simple processeur (CPU), sans abonnement coûteux ni besoin de cartes graphiques (GPU).
+* **Flexible :** Tu peux modifier ou ajouter de nouvelles catégories à tout moment dans l'application sans devoir Ré-entraîner le modèle.
+
+---
 
 ### 3. Architecture Hybride (Batch & Online)
 * **Mode Batch (Data Engineering) :** Traitement de volumes historiques via **dbt** et **DuckDB** pour dédupliquer, assainir et re-fusionner les *split messages* fragmentés.
@@ -26,29 +29,28 @@ Là où l'appel à un LLM (GPT-4 / Llama-3) introduit une latence de 1 à 3 seco
 
 ## 🛠️ Stack Technique
 
-* **Package Manager & Environment :** `uv` (Fast Python packaging written in Rust)
-* **Model & Inference :** `sentence-transformers`, `torch` (Inférence vectorielle)
-* **Language Detection :** `fasttext-wheel`
-* **Data Processing & Analytics :** `duckdb`, `dbt-duckdb`, `pandas`
-* **Application & UI :** `streamlit`
-* **Containerization & CI/CD :** `Docker`, `GitHub Actions`
+* **Langage & Environnement :** Python 3.11, `uv` (gestionnaire de packages ultra-rapide)
+* **Modèle NLP :** Sentence-Transformers (`paraphrase-multilingual-MiniLM-L12-v2`)
+* **Traitement de données :** DuckDB, dbt, Pandas
+* **Interface & Déploiement :** Streamlit, Docker, GitHub Actions (CI/CD), Railway
 
 ---
 
-## 🚀 Lancement Rapide (Local)
+## 🚀 Lancer le projet en local
 
-Le projet utilise **`uv`** pour la gestion ultra-rapide des dépendances.
+Le projet utilise **`uv`** pour installer les dépendances en quelques secondes.
 
 ```bash
 # 1. Cloner le projet
-git clone
-cd stream_chat_nlp
+git clone git-url
+cd streamchat-nlp
 
-# 2. Synchroniser l'environnement virtuel avec uv
+# 2. Installer les dépendances avec uv
 uv sync
 
-# 3. Lancer l'application Streamlit
+# 3. Lancer l'application
 uv run streamlit run streamlit_app.py
+
 ```
 
 ---
