@@ -1,7 +1,10 @@
-# 1. Use a Python base
-FROM python:3.10-slim
+# 1. Base Python
+FROM python:3.11-slim
 
-# 2. Install C++ compiler for FastText
+# 2. Copier uv depuis l'image officielle
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# 3. Dépendances système pour FastText et C++
 RUN apt-get update && apt-get install -y \
     build-essential \
     wget \
@@ -9,18 +12,19 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# 3. Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# 4. Installation des dépendances Python via uv
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev
 
-# 4. Pre-download the FastText language model
-RUN wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin -P /app/models/
+# 5. PRÉ-TÉLÉCHARGEMENT DU MODÈLE FASTTEXT
+# Requis pour éviter d'attendre le téléchargement à chaque démarrage de conteneur
+RUN mkdir -p /app/models && \
+    wget -q https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin -O /app/models/lid.176.bin
 
-# 5. Copy your project code
+# 6. Copier le reste du projet
 COPY . .
 
-# On copie le dossier data local dans un dossier data à l'intérieur de /app
-COPY data/ data/
+EXPOSE 8501
 
-# 6. Execute the pipeline
-ENTRYPOINT ["/bin/bash", "run_pipeline.sh"]
+# 7. Lancement de l'application Streamlit via uv
+CMD ["uv", "run", "streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]

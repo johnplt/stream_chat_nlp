@@ -1,0 +1,44 @@
+name: CI StreamChat NLP
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installer les dépendances avec uv
+        run: uv sync --frozen
+
+      - name: Vérifier la syntaxe et le formattage
+        run: |
+          uv run python -m py_compile streamlit_app.py
+
+      - name: Test de chargement du modèle et d'inférence
+        run: |
+          uv run python -c "
+          from sentence_transformers import SentenceTransformer, util
+          model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+          emb1 = model.encode('Bonjour', convert_to_tensor=True)
+          emb2 = model.encode('Hello', convert_to_tensor=True)
+          score = util.cos_sim(emb1, emb2)
+          assert score > 0.5, 'Test d\'inférence échoué'
+          print('✅ Test MLOps validé avec succès')
+          "
