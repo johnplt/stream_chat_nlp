@@ -14,10 +14,9 @@ Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milli
 3. **Traiter des volumes historiques (mode Batch)** pour nettoyer, dédoubler et analyser les données passées avec DuckDB et dbt.
 
 ## Pourquoi cette approche plutôt qu'un LLM (ex: ChatGPT) ?
-
-* **Ultra-rapide (< 30 ms) :** Au lieu d'attendre 2 à 3 secondes la réponse d'un gros modèle, la classification se fait presque instantanément.
-* **Économique et sobre :** Tourne sur un simple processeur (CPU), sans abonnement coûteux ni besoin de cartes graphiques (GPU).
-* **Flexible :** Tu peux modifier ou ajouter de nouvelles catégories à tout moment dans l'application sans devoir Ré-entraîner le modèle.
+* **Exécution rapide & légère :** Au lieu d'attendre la réponse plus lourde et distante d'un grand modèle de langage, la classification s'effectue localement sur le serveur.
+* **Économique et sobre :** Tourne sur un simple processeur (CPU), sans abonnement API coûteux ni besoin de cartes graphiques (GPU).
+* **Flexible :** Tu peux modifier ou ajouter de nouvelles catégories à tout moment dans l'application sans devoir ré-entraîner le modèle.
 
 ---
 
@@ -43,7 +42,7 @@ Le projet utilise **`uv`** pour installer les dépendances en quelques secondes.
 ```bash
 # 1. Cloner le projet
 git clone git-url
-cd streamchat-nlp
+cd stream_chat_nlp
 
 # 2. Installer les dépendances avec uv
 uv sync

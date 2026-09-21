@@ -109,11 +109,11 @@ st.markdown("""
 > 
 > Cette plateforme permet de **catégoriser automatiquement les messages clients** (support, réclamations, questions) dans plus de 50 langues, afin d'envoyer chaque demande directement à la bonne équipe.
 > 
-> * **Réponse instantanée (< 30 ms) :** Utilise un modèle léger sur CPU. C'est beaucoup plus rapide, sobre et économique que de faire appel à un LLM (comme GPT-4).
-> * **Catégories modifiables à la volée :** La liste des catégories dans la barre de gauche peut être modifiée à la volée sans avoir besoin de ré-entraîner le modèle.
+> * **Inférence légère sur CPU :** Utilise un modèle compact et optimisé. C'est une alternative sobre, rapide et économique au recours systématique à des LLMs payants (comme GPT-4).
+> * **Catégories modifiables à la volée :** La liste des catégories dans la barre de gauche peut être personnalisée à tout moment sans aucun ré-entraînement du modèle.
 > * **Deux modes d'utilisation :** 
 >   1. **En temps réel :** Pour trier les messages dès qu'ils arrivent sur un chat ou un formulaire.
->   2. **Par lot (Batch) :** Pour traiter un fichier CSV entier de données historiques avec **dbt / DuckDB**.
+>   2. **Par lot (Batch) :** Pour traiter et nettoyer des fichiers de données historiques avec **dbt / DuckDB**.
 """)
 
 st.divider()
@@ -148,18 +148,13 @@ with tab1:
     with col2:
         st.subheader("Résultats d'Inférence")
         if btn_run and user_input.strip():
-            t0 = time.perf_counter()
-            
             msg_emb = model.encode(user_input, convert_to_tensor=True)
             scores = util.cos_sim(msg_emb, category_embeddings)[0]
             
             best_idx = scores.argmax().item()
-            latency_ms = (time.perf_counter() - t0) * 1000
             
-            m1, m2 = st.columns(2)
-            m1.metric("Latence Inférence", f"{latency_ms:.1f} ms", delta="< 500 ms SLA")
-            m2.metric("Score de Confiance", f"{float(scores[best_idx]):.1%}")
-            
+            # Affichage direct du score de confiance et du résultat
+            st.metric("Score de Confiance", f"{float(scores[best_idx]):.1%}")
             st.success(f"**Catégorie attribuée :** {categories[best_idx]}")
             
             df_res = pd.DataFrame({"Catégorie": categories, "Score de similarité": [float(s) for s in scores]}).sort_values("Score de similarité", ascending=False)
