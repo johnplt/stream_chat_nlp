@@ -1,10 +1,10 @@
-# ⚡ StreamChat NLP Hub
+# StreamChat NLP Hub
 
-> **Classer et trier automatiquement les messages clients dans +50 langues en temps réel et par lot.**
+**Classer et trier automatiquement les messages clients dans +50 langues en temps réel et par lot.**
 
 ---
 
-## 🤔 À quoi sert ce projet ?
+## À quoi sert ce projet ?
 
 Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milliers de messages peuvent arirver chaque jour et parfois dans des langues différentes. Les trier à la main ou créer des règles rigides prend du temps et coûte cher.
 
@@ -13,7 +13,7 @@ Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milli
 2. **Rediriger automatiquement le message** vers la bonne équipe ou le bon service client.
 3. **Traiter des volumes historiques (mode Batch)** pour nettoyer, dédoubler et analyser les données passées avec DuckDB et dbt.
 
-## 💡 Pourquoi cette approche plutôt qu'un LLM (ex: ChatGPT) ?
+## Pourquoi cette approche plutôt qu'un LLM (ex: ChatGPT) ?
 
 * **Ultra-rapide (< 30 ms) :** Au lieu d'attendre 2 à 3 secondes la réponse d'un gros modèle, la classification se fait presque instantanément.
 * **Économique et sobre :** Tourne sur un simple processeur (CPU), sans abonnement coûteux ni besoin de cartes graphiques (GPU).
@@ -21,13 +21,13 @@ Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milli
 
 ---
 
-### 3. Architecture Hybride (Batch & Online)
+## Architecture Hybride (Batch & Online)
 * **Mode Batch (Data Engineering) :** Traitement de volumes historiques via **dbt** et **DuckDB** pour dédupliquer, assainir et re-fusionner les *split messages* fragmentés.
 * **Mode Online / Temps Réel (MLOps & UI) :** Application Streamlit / API pour la classification instantanée et le routage des messages entrants.
 
 ---
 
-## 🛠️ Stack Technique
+## Stack Technique
 
 * **Langage & Environnement :** Python 3.11, `uv` (gestionnaire de packages ultra-rapide)
 * **Modèle NLP :** Sentence-Transformers (`paraphrase-multilingual-MiniLM-L12-v2`)
@@ -36,7 +36,7 @@ Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milli
 
 ---
 
-## 🚀 Lancer le projet en local
+## Lancer le projet en local
 
 Le projet utilise **`uv`** pour installer les dépendances en quelques secondes.
 
