@@ -22,11 +22,11 @@ with st.spinner("Initialisation du moteur NLP multilingue..."):
 DOMAIN_DATA = {
     "Fintech & Trading": {
         "categories": [
-            "Trade Execution (Buy, Sell, Orders)",
-            "Account Funding (Deposit, Withdrawal, Wire)",
-            "Technical Support (Login, Password, App Error)",
-            "Market Analysis (News, Prices, Trends)",
-            "Compliance & Legal (KYC, Tax, Verification)"
+            "Exécution d'Ordres (Achat, Vente)",
+            "Alimentation du Compte (Dépôt, Retrait, Virement)",
+            "Support Technique (Connexion, Erreur App)",
+            "Analyse de Marché (Actualités, Cours, Tendances)",
+            "Conformité & Légal (KYC, Fiscalité, Vérification)"
         ],
         "examples": {
             "Anglais": "I want to place an order to buy 50 shares of Apple.",
