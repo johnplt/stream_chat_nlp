@@ -1,6 +1,6 @@
 # StreamChat NLP Hub
 
-**Classer et trier automatiquement les messages clients dans +50 langues en temps réel et par lot.**
+![Texte alternatif](docs/images/streamchatnlp_image.jpg)
 
 ---
 
@@ -13,6 +13,8 @@ Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milli
 2. **Rediriger automatiquement le message** vers la bonne équipe ou le bon service client.
 3. **Traiter des volumes historiques (mode Batch)** pour nettoyer, dédoubler et analyser les données passées avec DuckDB et dbt.
 
+---
+
 ## Pourquoi cette approche plutôt qu'un LLM (ex: ChatGPT) ?
 * **Exécution rapide & légère :** Au lieu d'attendre la réponse plus lourde et distante d'un grand modèle de langage, la classification s'effectue localement sur le serveur.
 * **Économique et sobre :** Tourne sur un simple processeur (CPU), sans abonnement API coûteux ni besoin de cartes graphiques (GPU).
@@ -23,7 +25,6 @@ Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milli
 ## Architecture Hybride (Batch & Online)
 * **Mode Batch (Data Engineering) :** Traitement de volumes historiques via **dbt** et **DuckDB** pour dédupliquer, assainir et re-fusionner les *split messages* fragmentés.
 * **Mode Online / Temps Réel (MLOps & UI) :** Application Streamlit / API pour la classification instantanée et le routage des messages entrants.
-
 ---
 
 ## Stack Technique
