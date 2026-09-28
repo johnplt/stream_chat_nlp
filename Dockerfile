@@ -27,4 +27,4 @@ COPY . .
 EXPOSE 8501
 
 # 7. Lancement de l'application Streamlit via uv
-CMD ["sh", "-c", "uv run streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501}"]
+CMD [".venv/bin/streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
