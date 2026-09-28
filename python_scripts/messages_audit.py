@@ -4,15 +4,18 @@ import pandas as pd
 import duckdb
 import fasttext
 import os
-import urllib.request
 from deep_translator import GoogleTranslator
+import requests
 
 def process_single_message(text, model_path, conf_threshold):
     """Core logic to handle detection, routing, and timing."""
     # Auto-download model if missing
     if not os.path.exists(model_path):
         url = "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
-        urllib.request.urlretrieve(url, model_path)
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        with open(model_path, "wb") as f:
+            f.write(response.content)
     
     lang_model = fasttext.load_model(model_path)
 
