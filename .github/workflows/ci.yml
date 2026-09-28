@@ -24,6 +24,11 @@ jobs:
       - name: Checkout du code
         uses: actions/checkout@v4
 
+      # SCAN DE SECRETS
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Installer uv
         uses: astral-sh/setup-uv@v3
         with:
@@ -52,3 +57,15 @@ jobs:
           assert score > 0.5, 'Test d\'inférence échoué'
           print('✅ Test MLOps validé avec succès')
           "
+
+      # SCAN DOS & SÉCURITÉ CODE (Bandit)
+      - name: Scan des faiblesses de code (Bandit)
+        run: uvx bandit -r . -x ./.venv -ll
+
+      # SCAN DE VULNÉRABILITÉS (Trivy)
+      - name: Scan des vulnérabilités (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
