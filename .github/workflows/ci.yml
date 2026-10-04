@@ -46,16 +46,34 @@ jobs:
         run: |
           uv run python -m py_compile streamlit_app.py
 
-      - name: Test de chargement du modèle et d'inférence
+      - name: Test d'inférence API Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           uv run python -c "
-          from sentence_transformers import SentenceTransformer, util
-          model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
-          emb1 = model.encode('Bonjour', convert_to_tensor=True)
-          emb2 = model.encode('Hello', convert_to_tensor=True)
-          score = util.cos_sim(emb1, emb2)
-          assert score > 0.5, 'Test d\'inférence échoué'
-          print('✅ Test MLOps validé avec succès')
+          import os
+          import numpy as np
+          from huggingface_hub import InferenceClient
+
+          token = os.getenv('HF_TOKEN')
+          assert token, 'HF_TOKEN manquant dans les secrets GitHub'
+
+          client = InferenceClient(token=token)
+          res = client.feature_extraction(
+              text=['Bonjour', 'Hello'],
+              model='sentence-transformers/all-MiniLM-L6-v2'
+          )
+          arr = np.array(res)
+          if arr.ndim == 3:
+              arr = np.mean(arr, axis=1)
+
+          # Similarité cosinus avec NumPy
+          dot = np.dot(arr[0], arr[1])
+          norm = np.linalg.norm(arr[0]) * np.linalg.norm(arr[1])
+          score = dot / norm
+
+          assert score > 0.5, f'Test d\'inférence échoué avec un score de {score}'
+          print(f'✅ Test MLOps API validé avec succès (Score: {score:.3f})')
           "
 
       # SCAN DOS & SÉCURITÉ CODE (Bandit)
