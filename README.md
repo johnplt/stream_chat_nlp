@@ -6,7 +6,7 @@
 
 ## À quoi sert ce projet ?
 
-Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milliers de messages peuvent arirver chaque jour et parfois dans des langues différentes. Les trier à la main ou créer des règles rigides prend du temps et coûte cher.
+Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milliers de messages peuvent arriver chaque jour et parfois dans des langues différentes. Les trier à la main ou créer des règles rigides prend du temps et coûte cher.
 
 **StreamChat NLP** permet de :
 1. **Identifier le sujet d'un message instantanément** (ex: problème de paiement, demande d'ordonnance, suivi de livraison) peu importe la langue du client.
@@ -32,7 +32,7 @@ Dans le service client d'une entreprise (Fintech, Santé, E-Commerce), des milli
 * **Langage & Environnement :** Python 3.11, `uv` (gestionnaire de packages ultra-rapide)
 * **Modèle NLP :** Sentence-Transformers (`paraphrase-multilingual-MiniLM-L12-v2`)
 * **Traitement de données :** DuckDB, dbt, Pandas
-* **Interface & Déploiement :** Streamlit, Docker, GitHub Actions (CI/CD), Railway
+* **Interface & Déploiement :** Streamlit, Docker, GitHub Actions (CI/CD), Provider Cloud
 
 ---
 
