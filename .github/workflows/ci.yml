@@ -61,7 +61,7 @@ jobs:
           client = InferenceClient(token=token)
           res = client.feature_extraction(
               text=['Bonjour', 'Hello'],
-              model='sentence-transformers/all-MiniLM-L6-v2'
+              model='sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
           )
           arr = np.array(res)
           if arr.ndim == 3:
