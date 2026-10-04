@@ -34,7 +34,7 @@ def get_embeddings(texts: list) -> np.ndarray:
         # Utilisation de la méthode dédiée feature_extraction du SDK
         response = client.feature_extraction(
             text=texts,
-            model="sentence-transformers/all-MiniLM-L6-v2"
+            model="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
         )
         arr = np.array(response)
         
